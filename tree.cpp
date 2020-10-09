@@ -65,7 +65,7 @@ private:
 		if (rootP != NULL)
 		{
 			print(rootP->left_node);
-			cout << rootP->fullN << ": " << rootP->number << endl;
+			cout << rootP->fullN << ": " << "+380" << rootP->number << endl;
 			print(rootP->right_node);
 		}
 	}
