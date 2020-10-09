@@ -4,8 +4,8 @@ This is binary search tree implementation following by book: "Introduction to Al
 I use full name of person and his telephone number to fill tree with data.
 All tests of my binary search tree represented in <treeTest> function.
 
-#tree.cpp
+# tree.cpp
 This file stores realization of tree and test function.
 
-#HeaderTree.h
+# HeaderTree.h
 It's a heder file for tree.cpp which consists of functions that works with strings.Only!
