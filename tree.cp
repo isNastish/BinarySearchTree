@@ -221,57 +221,65 @@ public:
 
 };
 
+#define C_RED          "\x1b[31;1m"
+#define RESET_TO_DEF   "\x1b[0m"
 //Test
 void treeTest(Bintree& T)
 {
 	/*
 	 Test function, you can test here whatever you want,
 	 but this is my way of testing binary search tree!
+
+	 available commands - 0, 1, 2, 3, 4
 	*/
-	int i = 6;
+
+	int flag = 1;
 	char fullN[NAME_LEN];
-	while (i)
+	int action;
+
+	cout << "Terminate program:          0\n";
+	cout << "Add item to binary tree:    1\n";
+	cout << "Print all items:            2\n";
+	cout << "Find phone number by name:  3\n";
+	cout << "Delete item by name:        4\n\n\n";
+
+	while (flag)
 	{
-		ll int num;
-		int len = getline(fullN);
-		cout << "num: ";
-		cin >> num;
+		cout << C_RED "~: " RESET_TO_DEF;
+		cin >> action;
 		cin.ignore();
-		cout << '\n';
-		T.push(fullN, num);
-		--i;
+		switch (action)
+		{
+		case 1: // add info.
+			ll int num;
+			getline(fullN);
+			cout << "num: ";
+			cin >> num;
+			cin.ignore();
+			cout << '\n';
+			T.push(fullN, num);
+			break;
+		case 2: //show all
+			T.print();
+			cout << "\n\n";
+			break;
+		case 3://find number by name.
+			getline(fullN);
+			T.search(fullN);
+			cout << '\n';
+			break;
+		case 4:// delete node by name
+			getline(fullN);
+			T.deleteN(fullN);
+			cout << '\n';
+			break;
+		case 0:
+			flag = 0;
+			break;
+		default:
+			cout << "Unknown command!\n";
+		};
 	}
-	cout << "\n\n";
-
-	//Print all elements.
-	T.print();
-
-	cout << "\n\n";
-	getline(fullN);
-	T.search(fullN);
-
-	
-	//Min, Max nodes.
-	T.treeMin();
-	T.treeMax();
-
-	//Successor, predecessor.
-	cout << "\n\n";
-	getline(fullN);
-	T.successor(fullN);
-	T.predecessor(fullN);
-	
-	//Delete node by key.
-	cout << "\n\n";
-	getline(fullN);
-	T.deleteN(fullN);
-
-	//Final Print
-	cout << "\n\n";
-	T.print();
-
-	cout << "\n\n";
-
 }
 
 int main()
@@ -280,3 +288,4 @@ int main()
 	treeTest(T);
 	return 0;
 }
+
