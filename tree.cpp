@@ -1,5 +1,5 @@
 #include <iostream>
-#include "HeaderTree.h"
+#include "bheader.h"
 #define ll long long
 
 using std::cout;
@@ -19,7 +19,7 @@ private:
 	}*rootN;
 
 	//Distruct tree.
-	
+
 	void distructTree(struct node* rootP)
 	{
 		if (rootP != NULL)
@@ -32,7 +32,7 @@ private:
 			rootP->fullN = nullptr;
 			free(rootP);
 			rootP = nullptr;
-			
+
 		}
 	}
 
@@ -65,7 +65,7 @@ private:
 		if (rootP != NULL)
 		{
 			print(rootP->left_node);
-			cout << rootP->fullN << ": " << "+380" << rootP->number << endl;
+			cout << rootP->fullN << ": " << rootP->number << endl;
 			print(rootP->right_node);
 		}
 	}
@@ -73,8 +73,8 @@ private:
 	//Seaarch
 	struct node* search(struct node* rootP, char* key)
 	{
-		int temp = mystrcmp(rootP->fullN, key);
-		if (NULL == rootP || temp == 0)
+		int temp;
+		if (NULL == rootP || (temp = mystrcmp(rootP->fullN, key)) == 0)
 			return rootP;
 		else if (temp > 0)
 			return search(rootP->left_node, key);
@@ -138,11 +138,11 @@ private:
 	}
 
 	//Deleting - function that deletes given node!
-	void deleteN(struct node* rootP, struct node *sourceP)
+	void deleteN(struct node* rootP, struct node* sourceP) //sourceP - node to delete
 	{
-		if (NULL == sourceP->left_node)
+		if (NULL == sourceP->left_node) //if left node doesn't exist.
 			transplant(rootP, sourceP, sourceP->right_node);
-		else if (NULL == sourceP->right_node)
+		else if (NULL == sourceP->right_node) //if right node doesn't exist.
 			transplant(rootP, sourceP, sourceP->left_node);
 		else
 		{
@@ -155,12 +155,15 @@ private:
 			transplant(rootP, sourceP, tempP);
 			tempP->left_node = sourceP->left_node;
 			tempP->left_node->parent = tempP;
+			if (sourceP == rootP) rootN = tempP;
 		}
+		free(sourceP);
+		sourceP = nullptr;
 	}
 
 public:
 	Bintree() { rootN = NULL; }
-	void push(char* key, ll int number) {rootN = push(rootN, key, number);}
+	void push(char* key, ll int number) { rootN = push(rootN, key, number); }
 	void print() { print(rootN); }
 	void treeMin()
 	{
@@ -180,7 +183,7 @@ public:
 		if (!tempP) cout << "Wasn't found!\n";
 		else cout << tempP->fullN << ": " << "+380" << tempP->number << endl;
 	}
-	void successor(char *key)
+	void successor(char* key)
 	{
 		struct node* tempP = search(rootN, key);
 		if (!tempP) cout << "Don't exist!\n";
@@ -202,30 +205,30 @@ public:
 			cout << predcP->fullN << ": " << "+380" << predcP->number << endl;
 		}
 	}
-	void deleteN(char *key)
+	void deleteN(char* key)
 	{
 		struct node* todeleteN = search(rootN, key);
 		if (!todeleteN) cout << "Node wasn't found!\n";
 		else deleteN(rootN, todeleteN);
 	}
-	//NOTE don't forget to free memory!
-	~Bintree() 
-	{ 
-		distructTree(rootN); 
+	//NOTE Alex, don't forget to free memory!
+	~Bintree()
+	{
+		distructTree(rootN);
 		rootN = nullptr;
 		if (!rootN) cout << "The tree was destroyed!\n";
 	}
-	
+
 };
 
 //Test
-void treeTest(Bintree &T)
+void treeTest(Bintree& T)
 {
 	/*
 	 Test function, you can test here whatever you want,
 	 but this is my way of testing binary search tree!
 	*/
-	int i = 4;
+	int i = 6;
 	char fullN[NAME_LEN];
 	while (i)
 	{
@@ -234,6 +237,7 @@ void treeTest(Bintree &T)
 		cout << "num: ";
 		cin >> num;
 		cin.ignore();
+		cout << '\n';
 		T.push(fullN, num);
 		--i;
 	}
@@ -246,6 +250,7 @@ void treeTest(Bintree &T)
 	getline(fullN);
 	T.search(fullN);
 
+	
 	//Min, Max nodes.
 	T.treeMin();
 	T.treeMax();
@@ -255,7 +260,7 @@ void treeTest(Bintree &T)
 	getline(fullN);
 	T.successor(fullN);
 	T.predecessor(fullN);
-
+	
 	//Delete node by key.
 	cout << "\n\n";
 	getline(fullN);
