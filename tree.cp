@@ -157,6 +157,8 @@ private:
 			tempP->left_node->parent = tempP;
 			if (sourceP == rootP) rootN = tempP;
 		}
+		free(sourceP->fullN);
+		sourceP->fullN = nullptr;
 		free(sourceP);
 		sourceP = nullptr;
 	}
